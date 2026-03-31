@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api:*)",
+      "Bash(python3 -c \"import sys,json; [print\\(i[''''path'''']\\) for i in json.load\\(sys.stdin\\)[''''tree''''] if i[''''type'''']==''''blob'''' and \\(''''types'''' in i[''''path''''] or ''''state'''' in i[''''path''''] or ''''core'''' in i[''''path''''] or i[''''path''''].endswith\\(''''types.ts''''\\) or ''''interface'''' in i[''''path''''].lower\\(\\)\\)]\")"
+    ]
+  }
+}

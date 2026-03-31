@@ -9,34 +9,31 @@
  * ```ts
  * import { createConvexState } from "chat-state-convex";
  *
- * const state = createConvexState({
- *   url: process.env.CONVEX_URL!,
- *   logger: console,
- * });
+ * // URL auto-detected from CONVEX_CLOUD_URL or CONVEX_URL
+ * const state = createConvexState();
  * ```
  */
 
 import { ConvexHttpClient } from "convex/browser";
 import { makeFunctionReference, type FunctionReference } from "convex/server";
-import type { Lock, Logger, QueueEntry, StateAdapter } from "chat";
+import type { Lock, QueueEntry, StateAdapter } from "chat";
 
 export interface ConvexStateAdapterOptions {
-  /** Logger instance for error reporting */
-  logger: Logger;
   /**
    * The module path in the app where chatState wrapper functions are exported.
    * Defaults to "chatState" (i.e., convex/chatState.ts).
    */
   module?: string;
-  /** Convex deployment URL */
-  url: string;
+  /**
+   * Convex deployment URL. Auto-detected from environment variables if omitted:
+   * CONVEX_CLOUD_URL (inside Convex functions) or CONVEX_URL (outside).
+   */
+  url?: string;
 }
 
 export interface ConvexStateClientOptions {
   /** Existing ConvexHttpClient instance */
   client: ConvexHttpClient;
-  /** Logger instance for error reporting */
-  logger: Logger;
   /**
    * The module path in the app where chatState wrapper functions are exported.
    * Defaults to "chatState" (i.e., convex/chatState.ts).
@@ -46,18 +43,25 @@ export interface ConvexStateClientOptions {
 
 export class ConvexStateAdapter implements StateAdapter {
   private readonly client: ConvexHttpClient;
-  private readonly logger: Logger;
   private readonly module: string;
   private connected = false;
   private connectPromise: Promise<void> | null = null;
 
-  constructor(options: ConvexStateAdapterOptions | ConvexStateClientOptions) {
+  constructor(options: ConvexStateAdapterOptions | ConvexStateClientOptions = {}) {
     if ("client" in options) {
       this.client = options.client;
     } else {
-      this.client = new ConvexHttpClient(options.url);
+      const url =
+        options.url ??
+        process.env.CONVEX_CLOUD_URL ??
+        process.env.CONVEX_URL;
+      if (!url) {
+        throw new Error(
+          "No Convex URL provided. Pass `url` or set CONVEX_CLOUD_URL / CONVEX_URL."
+        );
+      }
+      this.client = new ConvexHttpClient(url);
     }
-    this.logger = options.logger;
     this.module = options.module ?? "chatState";
   }
 
@@ -276,20 +280,20 @@ export class ConvexStateAdapter implements StateAdapter {
  *
  * @example
  * ```ts
- * // With URL
- * const state = createConvexState({
- *   url: process.env.CONVEX_URL!,
- *   logger: console,
- * });
+ * // Auto-detect URL from CONVEX_CLOUD_URL or CONVEX_URL
+ * const state = createConvexState();
+ *
+ * // With explicit URL
+ * const state = createConvexState({ url: "https://..." });
  *
  * // With existing client
  * import { ConvexHttpClient } from "convex/browser";
- * const client = new ConvexHttpClient(process.env.CONVEX_URL!);
- * const state = createConvexState({ client, logger: console });
+ * const client = new ConvexHttpClient("https://...");
+ * const state = createConvexState({ client });
  * ```
  */
 export function createConvexState(
-  options: ConvexStateAdapterOptions | ConvexStateClientOptions
+  options: ConvexStateAdapterOptions | ConvexStateClientOptions = {}
 ): ConvexStateAdapter {
   return new ConvexStateAdapter(options);
 }
