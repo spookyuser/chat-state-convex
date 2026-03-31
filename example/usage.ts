@@ -1,18 +1,22 @@
 /**
- * Example: Using ConvexStateAdapter with the chat SDK
+ * Example: Using ConvexStateAdapter inside a Convex action
  */
 
-import { createConvexState } from "chat-state-convex";
-
-// URL auto-detected from CONVEX_CLOUD_URL or CONVEX_URL
-const state = createConvexState();
-
-// Use it with the chat SDK
+// import { action } from "./_generated/server";
+// import { components } from "./_generated/api";
+// import { createConvexState } from "chat-state-convex";
 // import { Chat } from "chat";
 //
-// const chat = new Chat({
-//   state,
-//   adapters: { slack: slackAdapter },
-// });
+// export const handleMessage = action({
+//   handler: async (ctx) => {
+//     const state = createConvexState({ ctx, component: components.chatState });
+//     await state.connect();
 //
-// await chat.start();
+//     const chat = new Chat({
+//       state,
+//       adapters: { slack: slackAdapter },
+//     });
+//
+//     // ...
+//   },
+// });
