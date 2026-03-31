@@ -1,6 +1,6 @@
 {
   "name": "chat-state-convex",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Convex state adapter for @vercel/chat",
   "license": "MIT",
   "type": "module",
