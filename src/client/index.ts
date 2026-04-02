@@ -1,10 +1,2 @@
-export {
-  ConvexStateAdapter,
-  createConvexState,
-  type ConvexStateAdapterOptions,
-  type ConvexStateComponentOptions,
-  type ConvexStateClientOptions,
-  type ConvexStateUrlOptions,
-} from "./adapter.js";
-
+export { createStateAdapter } from "./adapter.js";
 export { ChatState, type Lock } from "./chatState.js";

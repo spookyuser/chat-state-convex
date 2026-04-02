@@ -1,32 +1,26 @@
 /**
- * Example: Using ConvexStateAdapter inside a Convex action
- *
- * This is the recommended approach — component mode, no wrapper functions needed.
+ * Example: Using the chat SDK with Convex inside an action
  */
 
 // import { action } from "./_generated/server";
 // import { components } from "./_generated/api";
-// import { createConvexState } from "chat-state-convex";
+// import { createStateAdapter } from "chat-state-convex";
 // import { Chat } from "chat";
 //
 // export const handleMessage = action({
 //   handler: async (ctx) => {
-//     const state = createConvexState({ ctx, component: components.chatState });
-//     await state.connect();
-//
+//     const state = createStateAdapter(ctx, components.chatState);
 //     const chat = new Chat({
 //       state,
-//       adapters: { slack: slackAdapter },
+//       userName: "Bot",
+//       adapters: { whatsapp: whatsappAdapter },
 //     });
-//
 //     // ...
 //   },
 // });
 
 /**
- * Example: Using ChatState class directly (without the adapter)
- *
- * For direct access to component functions from your own Convex mutations/queries.
+ * Example: Using ChatState class directly in your own mutations/queries
  */
 
 // import { ChatState } from "chat-state-convex";
@@ -40,12 +34,5 @@
 //   args: { threadId: v.string() },
 //   handler: async (ctx, args) => {
 //     await chatState.subscribe(ctx, args.threadId);
-//   },
-// });
-//
-// export const isSubscribed = query({
-//   args: { threadId: v.string() },
-//   handler: async (ctx, args) => {
-//     return await chatState.isSubscribed(ctx, args.threadId);
 //   },
 // });
