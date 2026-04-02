@@ -26,7 +26,7 @@
 import { ConvexHttpClient } from "convex/browser";
 import { makeFunctionReference, type FunctionReference } from "convex/server";
 import type { Lock, QueueEntry, StateAdapter } from "chat";
-import { ChatState } from "./client.js";
+import { ChatState } from "./chatState.js";
 
 // ── Option types ──
 

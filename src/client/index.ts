@@ -7,4 +7,4 @@ export {
   type ConvexStateUrlOptions,
 } from "./adapter.js";
 
-export { ChatState, type Lock } from "./client.js";
+export { ChatState, type Lock } from "./chatState.js";
